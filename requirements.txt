@@ -1,0 +1,8 @@
+aiohttp
+certifi
+lxml
+openai
+pdfminer.six
+python-dotenv
+readability-lxml
+trafilatura
