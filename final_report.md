@@ -7,31 +7,31 @@
 
 ### Summary
 
-shadcn/ui is changing its default component library from Radix to Base UI, starting July 2026. The post explains that while Radix remains fully supported (not deprecated), Base UI is now the recommended option because it’s stable (v1.6.0), improving quickly, and is already used for new projects created via shadcn/create and docs defaults. New projects will use Base UI automatically, with Radix available via a flag or config to keep existing CI scripts consistent. The team also offers an AI “skill” to migrate progressively component-by-component without risky codemods, producing working, typechecked code plus per-component migration reports and clean git history.
+shadcn/ui is updating its defaults: Base UI will be the starting component library instead of Radix. The post explains that Radix powers shadcn/ui since its 2023 launch, but Base UI has reached stability (v1.6.0, millions of weekly downloads) and is now the chosen default for new projects, docs, and shadcn/create scaffolding. Radix is not deprecated—both libraries will continue to receive updates and new components, and existing apps don’t need migration unless a user explicitly wants to switch. For those who choose to migrate, shadcn offers a “skill” for incremental, component-by-component migration with reports in .migration and clean git history, avoiding fragile codemods by understanding project-specific customizations.
 
 #### Top 5 Positive Comments
 
 1. Great news. I've found that no UI library comes close to shadcn's quality. It even looks incredible when building desktop apps. We used it to build DB Pro [1] and the DB Pro website, and everyone compliments us on our design. I see it becoming the defacto choice for UIs especially when building with agents. [1] https://dbpro.app
 
-2. I love Mantine. It’s easy to use, full featured with lots of components and helpers, and yet if you need to, you can use it headless and customise it too (I’ve never bothered though; I did add my own additional spacing/sizing options via the theme support though)
+2. Ticking up a version number is all fine and good until it requires a dependency upgrade you aren’t ready for. If for example you wanted to upgrade MUI from 4 to 5, you’d find react 17 wasn’t supported. And if you weren’t ready or able to upgrade react, then you’d just be stuck using a UI library going more out of date by the day. With shadcn / the copy paste format, you’ll almost never see that happen. The button sha...
 
-3. Base UI is more low-level, a lot less opinionated and doesn’t force you into certain layouts. This of course makes it more complex to use, but that doesn’t matter if you’re using shadcn components because they’re doing that work for you. So essentially they look and operate the same as Radix components at the shadcn level but you have low-level control later on should you need it.
+3. Love love love mantine.
 
-4. I highly prefer a copy and paste approach. The less npm installs the better.
+4. Oh, I know exactly what you mean. I use plannotator with claude a lot and have much better time, since I asked for a specific styleguide. I used "CD era MSDN reference and Raymond Chen blogging style" as a starting prompt for the styleguide and my work ability to digest AI plans raised a lot. Couldn't recommend it more. Humble, insightful and respecting the reader
 
-5. That's great. Started using Base UI early on via 9ui [0] and found the primitives very pleasant to work with, especially if one wants to compose more complex components from other Base UI components. Maybe Shad can reduce some of the dependencies they rely on now. [0] https://www.9ui.dev
+5. Correct. Nothing else comes close.
 
 #### Top 5 Negative Comments
 
-1. Martine just straight up sucks. Vendoring your components gives you the best of both worlds. You get a full component library but retain the ability to modify them as you want. Your AI agent claim doesn't make any sense either. When upgrading normally your component just gets rewritten on disk. When switching from radix to base ui, a more comprehensive approach is needed.
+1. Because it means that they think I'm stupid. They think it's not worth investing human attention to write it, so why am I expected to invest my attention to read it? If it's written as SEO spam, why link it here? If it's written to be read by humans, do they think we're stupid?
 
-2. now there is an upgrade ai agent for something that should just be ticking up a version number. If a component as basic as a button or a list view ever requires an “upgrade”, something is fundamentally wrong to begin with. HTML5, ARIA, etc. aren’t cutting edge technologies that the ecosystem still needs time to figure out. This should be pull once and forget.
+2. Martine just straight up sucks. Vendoring your components gives you the best of both worlds. You get a full component library but retain the ability to modify them as you want. Your AI agent claim doesn't make any sense either. When upgrading normally your component just gets rewritten on disk. When switching from radix to base ui, a more comprehensive approach is needed.
 
-3. I’m leaning towards vendoring for all my new projects. Grabbing an off-the-shelf UI library is easy in the short term, but it’s usually overcomplicated, implements things I won’t ever need, is hard to tweak if/when you want to distinguish your app from the thousand others using the same library, and when you do decide to upgrade it, all your tweaks break in subtle ways. What I think would be the best approach is buil...
+3. now there is an upgrade ai agent for something that should just be ticking up a version number. If a component as basic as a button or a list view ever requires an “upgrade”, something is fundamentally wrong to begin with. HTML5, ARIA, etc. aren’t cutting edge technologies that the ecosystem still needs time to figure out. This should be pull once and forget.
 
-4. My main gripe with Shadcn and, well, most UI libraries nowadays, is that they are reinventing the wheel for like a thousandth time. I’m trying out Ark UI on a side project. They do have some genuinely useful components, like tags input: https://ark-ui.com/docs/components/tags-input They have a tabs/“segment group” component with a nice animated active element indicator which would probably be tricky to implement: htt...
+4. I'm not a shadcn user, and so as with any project I'm not familiar with, I'm looking to see if if it's interesting to me. If the post is thoughtful and clear and I like the sense I get of their perspective on programming, then great, tell me more. No guarantees but maybe the writer is someone whose software I'd like to use. Claude doesn't tell me anything except that the writer used Claude. It's the same as with too...
 
-5. building your own UI library It's one more thing to maintain, and it's also difficult to push back on things. If you use off the shelf components it's much easier to say to designers and managers that a UX pattern is not available or not valid. You can point to the mature well known community owned UI library you use and make it authoritative. It's harder to do it if you build your own, suddenly each designer and dev...
+5. Imagine building a brand new component library to replace your already quite successful component library and still making it React-only.
 
 ## 2. If you're a button, you have one job
 
@@ -40,208 +40,216 @@ shadcn/ui is changing its default component library from Radix to Base UI, start
 
 ### Summary
 
-The post argues that a simple UI control like an image-rotation button has to “do one job” reliably: handle rapid repeated taps without blocking or unpredictably changing state. Testing shows iPhones buffer/remember taps so quick multi-taps reliably result in the expected final rotation, while a Nothing Phone/Android implementation confirms each tap with haptics/sound but ignores taps during an ongoing animation. The author links this to accessibility and “situational disability,” where many people intermittently face conditions that effectively limit their ability to wait or follow animations, such as rotating lots of photos quickly. The takeaway is that interfaces should never force users to wait for animations to finish; alternative solutions include interrupting/accelerating/stopping animations on new input.
+The post uses a simple “rotate image” UI to argue that button-like controls have one job: act reliably no matter how quickly users tap. On iPhone, rapid repeated taps are buffered so the final result returns to the starting orientation (a no-op), while on Nothing Phone/Android the device gives haptic/audio feedback and then ignores taps if an earlier rotation animation is still running. The author connects this to accessibility and “situational disability,” noting that many people temporarily find themselves effectively disabled in fast or inconvenient interaction scenarios (e.g., rotating lots of photos). The takeaway is a design rule: don’t block or force users to wait for animations to finish; instead buffer, interrupt, or accelerate/stoppage the animation so input is always honored.
 
 #### Top 5 Positive Comments
 
-1. Even in unstable or high latency I like the buffering. I’m thinking of a remote shell, where you want to type a command blindly, and see it appear seconds later, because keys got buffered in the Internet pipes. Without buffering it would feel awful, having to wait a full roundtrip per keystroke
+1. It shouldn't buffer them like the author describes. It should execute the button’s function immediately when pressed. This might mean to cancel the current animation and jump ahead, or it might mean to speed it up by the appropriate factor so it takes the same amount of time as it does for one button press. Either way is massively preferable to a button that swallows my input.
 
-2. We like buffering of keystrokes or gestures when the system is completely reliable, exhibits reasonable latency and low jitter in its latency.
+2. It shouldn't buffer them like the author describes. It should execute the button’s function immediately when pressed. This might mean to cancel the current animation and jump ahead, or it might mean to speed it up by the appropriate factor so it takes the same amount of time as it does for one button press. Either way is massively preferable to a button that swallows my input.
 
-3. In the Google photos app (Pixel 10) there is no animation, the rotation just happens immediately and there's no button press to buffer.
+3. The color change of the button shows you succeeded in pushing it. If you don't do this instantly most people are conditioned to try again. This is especially valuable for people with reduced motor control. It is completely independent of whether that push is a useful input given the current state of the software. Obviously when well written software knows it can't accept the input it should have disabled the button,...
 
-4. This is so true. Sorry you got downvoted.
+4. Even in unstable or high latency I like the buffering. I’m thinking of a remote shell, where you want to type a command blindly, and see it appear seconds later, because keys got buffered in the Internet pipes. Without buffering it would feel awful, having to wait a full roundtrip per keystroke
 
-5. This still exists on modern Androids (thanks God!) Even better: they moved it from developer options to accessibility options, which means that they treat it as a normal use case now What is bad is that it still disables the animations for progress bars (the only place where the animation makes sense)
+5. I totally agree, even not going as far as a Parkinson case, if you already so old and not too old persons use phones and touch screens, you will see that very often it is complicated for them to click on the small button at the right place and to have the feeling that "they have clicked". So, for me, on the argument of about accessibility, the Nothing Phone behavior will work a lot better I think. In their mind they...
 
 #### Top 5 Negative Comments
 
 1. Eliminating these animations is indeed a massive win. Overuse of animations is a terrible thing that has made iOS far worse over the years. I long for the days of yore, when the loading screenshot had a chance of being accurate. These days, when loading something like the health app I get a series of three different screens, rather than just landing at the destination it knew o wanted to start at. It is idiocy of the...
 
-2. This is literally the type of thing that caused the THERAC-25 disaster ( https://en.wikipedia.org/wiki/Therac-25 ). Experienced users hitting keys faster than the app could process them, resulting in safety features being inadvertantly bypassed.
+2. I'm sure it just my personal preference but I hate animations. Most often they do little other than slow an application down i.e. the code of the application could finish the task almost instantaneously but for the sake of appearance, they make it take longer to finish. I would much prefer no animations in applications. If the animation is there to disguise some actual slow response, just let me wait, give me jarring...
 
-3. It shouldn't buffer them like the author describes. It should execute the button’s function immediately when pressed. This might mean to cancel the current animation and jump ahead, or it might mean to speed it up by the appropriate factor so it takes the same amount of time as it does for one button press. Either way is massively preferable to a button that swallows my input.
+3. This is literally the type of thing that caused the THERAC-25 disaster ( https://en.wikipedia.org/wiki/Therac-25 ). Experienced users hitting keys faster than the app could process them, resulting in safety features being inadvertantly bypassed.
 
-4. I'm sure it just my personal preference but I hate animations. Most often they do little other than slow an application down i.e. the code of the application could finish the task almost instantaneously but for the sake of appearance, they make it take longer to finish. I would much prefer no animations in applications. If the animation is there to disguise some actual slow response, just let me wait, give me jarring...
+4. People often forget that animations serve purely a supportive role and do not exist for the purpose of having animations. They are there to mask loading times and ease from one state into the other. That's why we have them. This knowledge eventually got lost (figuratively speaking) and now we have code that needs to wait on the animation to finish. Another amazing example of cargo culting.
 
-5. I used to have a device with a physical button which, when you pressed it, would beep and add 30 seconds to the time. However, sometimes it would beep and not add 30 seconds, and sometimes it would add 30 seconds without beeping, so you always had to squint at the dim display to discover whether it had worked or not. I thought this must be a peculiarly bad design ... but since then I have lost count of the number of...
+5. Bad programming. People who have experience with embedded programming knows that reading out a button usually means denouncing. At the speed a microcontroller can read out a button it will change it's state multiple times per press because of contact bounce. Meaning when a user presses a button the program sees off, on, off, off, on, on, off, on, on, on, on, on, on, etc. Now if you just naively read out the current s...
 
-## 3. Command and Conquer Generals natively ported to macOS, iPhone, iPad using Fable
+## 3. Show HN: KiCad in the Browser
 
-- HN: https://news.ycombinator.com/item?id=48788283
-- External: https://github.com/ammaarreshi/Generals-Mac-iOS-iPad/tree/main
-
-### Summary
-
-The linked repository documents a native port of Command & Conquer: Generals: Zero Hour to Apple platforms (macOS on Apple Silicon, plus iPhone and iPad) including campaign, skirmish, and Generals Challenge. It emphasizes that it uses the real 2003 ARM64 engine with DirectX 8 mapped through DXVK → Vulkan → MoltenVK → Metal—no emulation—and adds RTS-appropriate touch controls. The project builds on EA’s GPLv3 source release via the existing GeneralsX macOS/Linux port, extending it with iOS/iPadOS work and engine fixes, while explicitly not distributing game assets (users must obtain their own Steam copy). The repo also provides build and packaging instructions, an engineering log and porting documentation, and notes known issues like iPad memory/session termination and occasional iOS backgrounding crashes.
-
-#### Top 5 Positive Comments
-
-1. EA released the Generals source under GPL v3, the GeneralsX project got it running on macOS/Linux, and I've taken it the rest of the way: native iOS and iPadOS builds of Zero Hour, plus Apple Silicon macOS. What works (all verified on a real iPad and iPhone): Campaign, Skirmish, and Generals Challenge: full missions, objectives, cutscenes, saves All audio: music, unit voices, EVA announcements, Challenge taunts, brie...
-
-2. This is an actual dream come true
-
-3. IMHO, this is an actual good use of what sounds like a person guiding a model to do a mass conversion. This is quite the understatement. Actually, it's probably the understatement of the year. "Pretty good, not bad, great use case". Dude. Fable fucking did what ?
-
-4. I vibe code myself to sleep and implemented a rewrite of civ1 in Common Lisp. It works well, has all the DOS nostalgia I wanted (uses the same sprites etc.) 10/10 will continue doing this kind of shit.
-
-5. I think the next 10 years or so are going to see a chucklefuck of games reversed thanks to LLMs, which can easily pattern match and operate on contrivedely optimized assembly and output reasonably accurate C/C++ code. I’m one of many right now using Ghidra + LLM workflow. It’s doing the thing it needs to and I’ve helped several communities revive and port their games this way. It is a huge time saver. While I’d perso...
-
-#### Top 5 Negative Comments
-
-1. Title is click bait. This started back in February and looking at commits, Fable did only a small part of the latest commits. 19 commits out of 2000: https://github.com/ammaarreshi/Generals-Mac-iOS-iPad/commits... And maybe it wasn't even Fable, they might have downgraded to Opus. This is the kind of frequent misinformation that makes me skeptical of Anthropic LLM claims. Whenever I compare them to GPT 5.5 on my web...
-
-2. Completely misleading title.
-
-3. no way fable did this. It would have stopped after the words "command and conquer" and nerfed you to opus (while also landing you on some nsa watch list)
-
-4. If they're using the same graphical assets they're violating copyright. Even if it's a reimagining of said assets it's probably still grounds for takedown.
-
-5. Pretty much a clickbait.
-
-## 4. Web-based cryptography is always snake oil
-
-- HN: https://news.ycombinator.com/item?id=48792203
-- External: https://www.devever.net/~hl/webcrypto
+- HN: https://news.ycombinator.com/item?id=48793542
+- External: https://demo.pcbjam.com/
 
 ### Summary
 
-The post argues that “end-to-end encryption” claims made by web-based apps are effectively “snake oil” because the web platform can’t support the necessary threat model. Since the website operator distributes the client-side JavaScript, a service that claims to protect against server/operator malice cannot do so: the operator can always change the client code to bypass confidentiality, making such cryptosystems inherently incoherent/backdoored. The author further claims the main reason companies adopt this kind of crypto is legal “cryptography theatre”—using nominal E2E encryption to claim they can’t comply with warrants or subpoenas—while noting that this shield can be challenged, unwound by law, or circumvented in practice. The piece cites examples like Lavabit and the FBI–Apple case to illustrate that governments may still compel compromises or that reliance on these legal theories is unreliable.
+The post introduces an early-access alpha of PCBJam, which runs KiCad in the browser. Users can open example PCB designs or load their own KiCad projects directly in the demo. It requires no installation and does not upload files to a server. The linked page focuses on trying KiCad functionality interactively through the web demo.
 
 #### Top 5 Positive Comments
 
-1. The discussion on the proposed solution is interesting https://github.com/w3c/ServiceWorker/issues/1680
+1. Happy to answer any questions & feel free to reach out ( email in my profile )!
 
-2. having E2E encryption is a marketing feature, you need it if you want to be competitive in the market, so this is another incentive to add it
+2. I like all the utility you have already built in. My selfish suggestion would be to add support to populate the part numbers for all the components from LCSC's database. JLCPCB wants these numbers in order to assemble a PCB. (Currently I use a JLCPCB plug-in to do this in KiCAD.)
 
-3. Before reading this article, I used to believe that IT companies deeply respected users’ human rights, spending millions of dollars to build end‑to‑end encryption. But thanks to this very article, I learned that they were actually saving tens of millions in administrative litigation costs – costs they would otherwise have had to pay every month to respond to wiretap warrants. Some might call this a “cryptographic inn...
-
-4. I think the article raises interesting questions about trust, but I am also doubtful if the definition of the “incoherent cryptosystem” is useful: The article argues that Signal is an incoherent cryptosystem, because they ship the E2E-encrypting Signal client (and could, hence, backdoor it) that should protect me, the user, against their own infrastructure snooping on me. As I understand the definition, we would not...
-
-#### Top 5 Negative Comments
-
-1. This entire article is... Nonsense? It categorically dismisses e2ee, without any supporting evidence whatsoever, other than the notion that a provider might push a update that doesn't encrypt messages anymore. It's on the level of "you can't trust your OS unless you wrote it yourself" -righteous sounding but utterly stupid in practice
-
-2. As a developer, when Facebook says that WhatsApp is end-to-end encrypted, you know that it means "the default client provides encryption, by default" but you know very well that they could selectively turn it off for anyone, at any time and it may be impossible to know that they did this this unless the target was tech savvy and actively monitoring their network packets. Especially on the web, they could just serve a...
-
-3. I never believed that the messages were truly E2E encrypted and I know for sure when WhatsApp retroactively censored a message I sent to a friend a while back, I found that super sus.
-
-4. The entire argument is based on the definition of an “Incoherent cryptosystem”, which is too restrictive to be useful for cases that you want eg. Tor is also developed and distributed by Tor people and it is supposed to protect you against everyone, including the Tor people.
-
-5. technically you could audit your local copy of tor source code, build it, and then never upgrade it. still this wouldn't guarantee that all the other nodes are not compromised
-
-## 5. Apocketlypse
-
-- HN: https://news.ycombinator.com/item?id=48792352
-- External: https://0dd.company/galleries/triumph/1.html
-
-### Summary
-
-The article describes a creator’s “Apocketlypse” project cycle, prompted by a shift away from hobby programming as AI enters professional work, alongside nostalgia from Digimon and its grief-filled “digital pet dies” themes. Using the uxn bytecode system, the author builds a tamagotchi/digimon-inspired handheld concept where you raise an apocalypse avatar instead of a pet—feeding it by destroying hospitals, forests, and polluting sources until it evolves and ends humanity. The device includes a small set of forms tied to machine rise, plague and distrust in science, and pollution/poisoned air, each with brief epilogues. The author notes that development was the most enjoyable “computer time” in a while, highlighting the mental discipline of byte-by-byte programming, and shares plans to release the uxn source code and ROM (with advice to use a larger-scale uxn setup).
-
-#### Top 5 Positive Comments
-
-1. Looks super sweet! Reminds me a good bit of Plague Inc (wrt the "destroy humanity") aspect. ...And now I want an m5 stack too haha. Looks super cute.
+3. thanks! one thing we did not port is the plugin system: it's quite hard to run python on the web ( AFAIK pyodide is not enough here ) and I've heard that it will be deprecated in the next version. The KiCad editor's state is accessible from the web app, we'll do some kind of plugin system like Figma's or just implement these functions as an overlay. We'll see, thanks for the tip!
 
 #### Top 5 Negative Comments
 
 _No comments available._
 
-## 6. Pandoc Lua Filters
+## 4. Claude Design System Prompt
+
+- HN: https://news.ycombinator.com/item?id=48792399
+- External: https://github.com/Trystan-SA/claude-design-system-prompt
+
+### Summary
+
+The GitHub project “Claude Design System Prompt” provides an open-source, MIT-licensed system prompt and 14-skill library derived from Anthropic’s Claude Design approach. It’s meant to turn an LLM into an opinionated, accessibility-aware, “AI-slop”-resistant design collaborator by rejecting generic SaaS-template aesthetics and enforcing principles like content discipline, visual hierarchy/rhythm, typography/color systems, and WCAG-friendly interaction patterns. The repository includes structured procedures for discovery, wireframing, prototype/deck generation, design-system extraction (tokens/components), and multiple review passes (accessibility, AI-trope detection, hierarchy, interaction states, and final polish), with skills designed to chain in typical workflows. It also offers variants for Claude and OpenAI Codex and includes guidance for calibrating prompt behavior to different model tendencies.
+
+#### Top 5 Positive Comments
+
+1. I've been using Claude Design to make animated SVGs, and I've learned a thing or two about its limits and how to get around them. One thing I've learned is that you have to ask it to first come up with a robust way to define the geometry and then apply that to an SVG. Without that first step, it just guesses at where everything should be that isn't directly connected with a node, and it is hilariously bad. But with t...
+
+2. This is pretty awesome. I’ve wanted to use Claude design, but with my regular MCP servers. Side note: ironic use of an llm writing the readme.
+
+3. They have never attempted to hide their system prompts in fact they explicitly publish them for Claude ( https://platform.claude.com/docs/en/release-notes/system-pro... ) and Claude Code they provide a proxy option which then makes it trivial to see the full requests and responses including the prompts and tool usage...
+
+4. I trust on this: https://github.com/elder-plinius/CL4R1T4S/blob/main/ANTHROPI... It’s different than this one shared by the op, but Anthropic maybe updated the prompt
+
+5. honestly, i think you can just look at the network tab and see the "content" of the skills. Same has been true for their excel addin and bunch of other things.
+
+#### Top 5 Negative Comments
+
+1. I'm calling BS, sorry. It looks light, and barely anything beyond surface level of what we could all could guess would be in a system prompt. This smells nothing more of a "claude give a system prompt that anthropic would use as a system prompt for claude" From what we know, there are some very specific details baked into the prompt as safety guards, where are those? Again calling BS and I'm not gonna waste more thou...
+
+2. If this is regular output of the LLM, I'm not sure, but given that the author proclaims that this is reverse engineered, then they are not allowed to redistribute it under their own license terms. The terms of service are also pretty clear on this not being allowed, which makes it extra hard to defend (section 3.3): You may not access or use, or help another person to access or use, our Services in the following ways...
+
+3. If you ask Claude Design itself to list the names of the skills available to it you get: Animated video Interactive prototype Make a deck Make a doc Make tweakable Claude API in prototypes Frontend design Wireframe Export as PPTX (editable) Export as PPTX (screenshots) Create design system Save as PDF Save as standalone HTML Send to Canva Handoff to Claude Code Which does not match the structure of this project at al...
+
+4. This would be much more interesting if it detailed how the prompt/skills were reverse-engineered. As it is it seems like this could just be the output from “hey Claude write me a system prompt that works like Claude Design”.
+
+5. Open source, MIT licensed. I don't think that is how copyright licensing works.
+
+## 5. Introduction to Compilers and Language Design
+
+- HN: https://news.ycombinator.com/item?id=48793454
+- External: https://dthain.github.io/books/compiler/
+
+### Summary
+
+This page introduces a free, online compiler-construction textbook developed by Prof. Douglas Thain for a University of Notre Dame compilers class. It explains what compilers do and frames the book as a one-semester guide to building a simple compiler for a C-like language that generates working X86 or ARM assembly. The author provides downloadable chapter PDFs (with personal/academic use permitted) and discourages offline copying by directing readers to the main page for the latest version. It also links to a GitHub repository of code resources (scanners/parsers, project starter code, and test cases) and includes an errata process for reporting typos and mistakes.
+
+#### Top 5 Positive Comments
+
+_No comments available._
+
+#### Top 5 Negative Comments
+
+_No comments available._
+
+## 6. Trust your compiler: Modern C++
+
+- HN: https://news.ycombinator.com/item?id=48746933
+- External: https://categorica.io/blog/2026.06.29_trust_your_compiler/
+
+### Summary
+
+The post argues that many long-standing “performance wisdom” in C++ is outdated because modern CPUs and optimizing compilers already recognize and optimize common patterns. It walks through examples—like Quake III’s fast inverse square root trick, bit-twiddling/popcount, matrix row-pointer indirection, and using const& reflexively—showing that “obvious” modern C++ often performs as well or better while producing clearer code and more reliable optimization. Benchmarks with Clang/GCC at high optimization levels suggest that clever, intent-obscuring tricks can even hinder vectorization/inlining or rely on assumptions (e.g., for floating-point fast-math). The overall takeaway is to trust the compiler and express intent using modern language/library features (e.g., std::popcount, contiguous layouts, and correct passing/forwarding semantics).
+
+#### Top 5 Positive Comments
+
+_No comments available._
+
+#### Top 5 Negative Comments
+
+1. Are you a fool? Another name for compilers: invisible backdoor injectors. The more complex is the syntax the more it is likely to happen... I let you guess how the "sane" syntax from c++ and similar (LOL) does fit here...
+
+2. I’ve seen some terrible horrid nonsense from them and even the best compilers don’t use a third of the opcodes our modern CPUs boast of. Nobody understands the big compilers any more either, they’re all too huge. And soon AI will be “improving” hem too. You want to see a beautiful compiler? Look at Plan 9’s compiler suite. A man could understand and even build on that.
+
+3. Trust the compiler - sure - but we can't change the whole program by using -ffast-math, unfortunately, so that particular one is out.
+
+4. Virtual vs static polymorphism std::visit over std::variant<A, B, C> is lowered to a switch over the active alternative. In this case, layout is probably doing more work than the dispatch mechanism itself. Very likely because last time I checked visit lowers to a virtual call.
+
+5. I really dislike the complexity of modern C++ language specs, but does it obscure much detail about FP ops? TL;DR: A vast majority of the programmers I've worked with don't understand the nuances of FP in general , nor the various extents of IEEE-754 support in different programming languages. So for important numerical programming, I think clarity regarding the FP operations being performed can be crucial. I'm just...
+
+## 7. Fast Software, the Best Software (2019)
+
+- HN: https://news.ycombinator.com/item?id=48792008
+- External: https://craigmod.com/essays/fast_software/
+
+### Summary
+
+The essay argues that software speed—both in responsiveness and in interface “lightness”—is a crucial but often undervalued marker of engineering quality and overall usability. Using personal examples like nvALT (instant startup and search-driven flow), the author connects fast interaction to trust, reduced friction, and maintaining creative “flow” rather than breaking it with lag. They contrast this with slower or increasingly “bloated” software over time (e.g., parts of Adobe’s Lightroom/Photoshop, and Google Maps’ gradual accumulation of sluggish animations and UI complexity), claiming that slowness can signal deeper engineering problems and erode confidence. The piece concludes that the best software inches toward the physical directness of tools like typewriters, and that speed shows up not only in performance metrics but in intuitiveness and even the clarity of microcopy and UI behavior.
+
+#### Top 5 Positive Comments
+
+1. I fully agree. I loathe slow software. I hate bloat. I love fast software. As a developer, I'm completely, even irrationally, obsessed with speed, performance optimization, and profiling. I wish more developers felt the same way.
+
+2. I run headless Alpine Linux (a minimal distro) in my homelab and it’s fast AF. The lag in Windows Explorer is sad when something like cd folder/folder is instant in Linux.
+
+3. Google Maps has gotten so slow When it comes to navigating (except public transit), hiking, and route building, Organic Maps[1] is very good. OSM data and offline-first is the way forward for detailed and _fast_ map experience. For cycling route building I have to mention BRouter[2], which allows you to write a custom cost function that is used to tweak your route preferences. [1]: https://organicmaps.app/ [2]: https...
+
+4. Simple tasks being barely fast enough alone is not fast enough, as they could unexpectedly slow down to a halt if you run a moderately heavy load alongside them. Speed enables more features and also simpler architectures and algorithms, since you can rely more on brute force in higher-level code.
+
+5. There are dozens of us! Dozens!
+
+#### Top 5 Negative Comments
+
+1. I really don't understand how you can even create software that feels as bad to use as Windows Explorer. It's like it's barely attached to reality. There's this weird floaty delay in everything. You copy a file, or did you? You're not sure. It hasn't updated yet. Oh, now the copy dialog appears with this progress bar that isn't showing progress. The dialog just sits there. Is something happening? I don't know. Many s...
+
+2. Faster at doing nothing?
+
+3. Fast and efficient software varies depending on the local context, but for me, I think I'd be fine with something slower as long as it's convenient enough. After all, once it passes a certain threshold, I can barely even notice the speed difference anyway. I wonder what OP's thinks of IDEs like VSCode. Would they see it as heavy and not great because it's Electron-based? But I find IDEs convenient.
+
+4. Honestly, I'm in partially disagree camp. What matters is how much time it saves. A good WYSIWYG editor will run circles around the fastest text editor. Even if WYSIWYG is a bit slower to open. It would be preferable for software to be more focused and faster over time, but that doesn't attract people to it.
+
+5. No way I wanna chat with my oven
+
+## 8. Pandoc Lua Filters
 
 - HN: https://news.ycombinator.com/item?id=48773079
 - External: https://pandoc.org/lua-filters.html
 
 ### Summary
 
-Pandoc Lua Filters explains how pandoc filters can modify the document AST between parsing and writing. It contrasts traditional JSON-based filters (passed via stdin/stdout and requiring external interpreters/libraries) with pandoc 2.0+ Lua filters that run in an embedded Lua 5.4 environment and marshal AST data directly, avoiding JSON pipe overhead and environment issues. The page shows a simple filter that replaces Strong emphasis with SmallCaps, then documents the Lua filter structure (tables keyed by element types), how return values can replace, splice, or delete elements, and how traversal can be customized via typewise vs topdown walking. It also covers special list filters (Inlines and Blocks), traversal order rules, how pandoc provides useful global variables (e.g., FORMAT, PANDOC_VERSION) to filters, and the built-in pandoc Lua module for creating and manipulating AST elements.
+The post introduces pandoc’s Lua filter system, which lets you modify Pandoc’s AST between parsing and writing. It contrasts Lua filters with “traditional” JSON-based filters, noting that Lua avoids stdin/stdout JSON marshaling overhead and doesn’t depend on external interpreters or AST-manipulation libraries—Lua 5.4 and the pandoc filter library are embedded in Pandoc starting with v2.0. It explains how to write and run filters (saving a Lua file and using `--lua-filter`), the expected return values for element handlers, and how Pandoc traverses the document (typewise by default, with options like topdown). The article also covers advanced features like filtering on ordered sequences of inlines/blocks, controlling traversal order/early exit, access to global context variables (FORMAT, version info, etc.), and the `pandoc` Lua module for creating AST elements and using helper functions (walk, read, pipe, mediabag, utilities).
 
 #### Top 5 Positive Comments
 
-1. I've always wondered if pandoc can be made reactive. Say markdown to Pandoc AST. If one changes something, a quick update to the AST would happen incrementally. Now with all these llm I might actually see if it can be done.
+1. We use it for seven years and it still runs fine when we update Pandoc - we usually always update things. I don’t remember anything about the docs, so not sure what changed.
+
+2. I've always wondered if pandoc can be made reactive. Say markdown to Pandoc AST. If one changes something, a quick update to the AST would happen incrementally. Now with all these llm I might actually see if it can be done.
+
+3. With a tagline of "a universal document converter" it is almost a guarantee to become a complicated program but how much of it is being used for any single conversion? Two more examples: Rclone is "bloated" but it needs to be in order to fulfill its purpose. ZFS is "bloated" because it combines volumes and filesystems but breaking the Unix philosophy also enables a different kind of synergy and simplicity elsewhere.
 
 #### Top 5 Negative Comments
 
-1. Is there anyone feeling that Pandoc is ever increasingly bloated? I have used Lua filters a decade ago [1] and the current documentation is nothing like my memories. I'm not even sure that how much of Lua scripts remain compatible across different Pandoc versions. [1] https://github.com/mearie/mearie.github.io/blob/source/res/w...
+1. A universal document converter is expected to expand via adding support for additional formats---that's okay (same for your other examples). I'm much more worried about the widening scope of the project.
 
-## 7. GPT-5.5 Codex reasoning-token clustering may be leading to degraded performance
+2. Is there anyone feeling that Pandoc is ever increasingly bloated? I have used Lua filters a decade ago [1] and the current documentation is nothing like my memories. I'm not even sure that how much of Lua scripts remain compatible across different Pandoc versions. [1] https://github.com/mearie/mearie.github.io/blob/source/res/w...
 
-- HN: https://news.ycombinator.com/item?id=48789428
-- External: https://github.com/openai/codex/issues/30364
+## 9. Knowledge Should Not Be Gated
+
+- HN: https://news.ycombinator.com/item?id=48792195
+- External: https://www.formaly.io/blog/knowledge-should-not-be-gated
 
 ### Summary
 
-The post reports an aggregate telemetry anomaly in OpenAI Codex: for the GPT-5.5 model, responses disproportionately end with exactly `reasoning_output_tokens = 516`, with additional spikes at fixed boundaries around `1034` and `1552`. The effect appears model-specific (GPT-5.5 accounts for 82% of exact-516 events despite only 19.3% of all responses) and coincides with a period (May–June 2026) where overall reasoning-token intensity drops sharply while exact-516 clustering rises. The author links this to a prior issue (#29353) where runs ending at exactly 516 reasoning tokens sometimes returned wrong answers, but they caution they are not proving hidden chain-of-thought truncation—only that telemetry suggests thresholded “reasoning-budget” behavior. They ask the Codex team to investigate internal causes (budget caps, routing/truncation/fallback/scheduler) and proposes validation queries and task replays comparing GPT-5.5 to other Codex models.
+The post argues that recent AI “knowledge” approaches (chunking documents, embeddings, vector databases, RAG/graph-RAG, and SDK pipelines) often make a company’s knowledge unreadable and effectively locked behind tooling, forcing every team to rebuild the same context-assembly machinery. Instead, it claims the simplest, scalable pattern is to keep knowledge in plain Markdown files (like AGENTS.md/CLAUDE.md and wiki-style linked notes) so models can read and update it directly, avoiding repeated retrieval and “format walls.” It highlights Google Cloud’s Open Knowledge Format (OKF) as a vendor-neutral standard that formalizes this LLM-wiki approach into portable bundles of Markdown concepts with minimal YAML frontmatter and normal links. The takeaway is that boring, interoperable file-based formats—not complex databases or SDK gating—are what make knowledge flow across humans, tools, and agents.
 
 #### Top 5 Positive Comments
 
-1. I love that Codex is open source and issues like these can surface/be addressed publicly.
+1. Information wants to be free! I remember when that was the rallying cry of hackers. I miss those days.
 
-2. But in that case you have nobody but yourself to blame, and you can stabilize things yourself at any time by refraining from making any changes. You won't be surprised by a provider. Honestly? That's not just valuable—it's essential.
+2. Most corporations likely have zero data retention agreements with LLM providers, at least for API usage. (Sure, you could be sceptical on whether the LLM provider is upholding that, but I personally do trust them. The trust betrayal if ZDR wasn't actually ZDR would be too great and commercially damaging for them to lie.)
 
-3. Verified this locally myself. Thanks for the concrete test. I guess it's time to give Claude another try.
+3. because corporations are using providers with ZDR in the contract. If OAI or any of the cloud providers violate this they're getting sued to oblivion.
 
-4. It’s not just you this is also my opinion, 5.3-codex was a fantastic model in terms of balancing output quality and cost. Cheap and efficient enough I could afford to use it on basically everything unlike 5.5 or Opus, but still pretty good, I preferred it to sonnet
+4. Secifically in Google AI Overview I always see links to sites where the information is sourced from. Or at least some of the sites, if the same info is sourced from 100 pages then it only shows 2 or 3, maybe the ones with the biggest PageRanks.
 
-5. If this really is widespread and degrading performance in 40% of the cases, then if OpenAI simultaneously fixes this bug and releases GPT 5.6 within a day or two, then the sudden boost in capability is going to blow people's hair back.
-
-#### Top 5 Negative Comments
-
-1. I’ve definitely experienced step jumps down in quality on an almost daily basis. I usually used xhigh. The experience of relying on codex’s outstandingly thorough coding earlier in the year has evaporated for me. I’m seeing incredibly stupid implementations intermittently, and have simply switched to Claude until openai takes the issue seriously. As far as i could tell they haven’t taken it seriously for the several...
-
-2. this explains so much why gpt 5.5 has been so bad lately it was really puzzling why it struggled so much where when it first came out it was one shotting stuff totally amazing, i tried the prompt that will tell you if your plan is degraded: codex exec --json --skip-git-repo-check --ephemeral -s read-only --disable memories -m gpt-5.5 -c model_reasoning_effort=high "Do not use external tools. A black bag contains cand...
-
-3. The good experience I had with GPT-5.5 before made me upgrade to Pro this month. Now I want a refund.
-
-4. Oh this seems bad, and is fairly easy to reproduce using codex cli. You give it a puzzle prompt that it has to reason about and solve, occasionally it will seemingly short circuit and think for exactly 516 tokens, and return the wrong result. When it ends up using 6000-8000 thinking tokens it returns the correct result. Maybe some issue with adaptive thinking? Another point for local models I guess, don't have to wor...
-
-5. i don't ever believe these issues are technical. They're business decisions to downgrade performance because to fix it means $$$$ and you arn't paying them enough.
-
-## 8. Programmers need to start meditating now
-
-- HN: https://news.ycombinator.com/item?id=48792080
-- External: https://jacob.gold/posts/programmers-need-to-start-meditating-now/
-
-### Summary
-
-The post argues that programming used to naturally provide a “meditative” focus: deep flow that quiets the brain’s default mode network, reducing rumination and worry. The author claims that with modern work patterns dominated by context switching, they’ve spent far less time in flow and feel that programming no longer fulfills that calming function. They suggest programmers compensate by adopting another calming practice—e.g., deliberate meditation using apps like Calm or Waking Up—so the mind still gets a regular settling.
-
-#### Top 5 Positive Comments
-
-1. Meditation - «getting used to» A most elementary form of meditation, is getting used to placing your attention on a sensation and keeping it anchored there - even when other sensations or thoughts arise. Following the breath- place your awareness, your attention, on the sensation of air passing through your nostrils. Count one inbreath and outbreath cycle as «1», and count until 10 or 21. Decide before you start, how...
-
-2. Thank you. I like the comparison of "meditation" with "sport": it is not all the same, even if there are commonalities between some disciplines. It is rare to see laypeople discuss some of the different types and which one may be best suited for a particular goal. If the goal is simply relieving stress, performing some sport outdoors —especially team sports— is probably more effective than any meditation, for most pe...
-
-3. My favorite metaphor for programming is playing chess. Your opponent in programming is the complexity, you don't see its moves before the coding and design progress, before you make your choices/moves. You solve a problem by writing some code but that causes new problems down the line you didn't know existed before you made your choice of writing some specific code. or choosing a specific design. Chess-players too ar...
-
-4. I noticed how relaxing and meditative programming can be. It might sound that after day job basically solving other people pronlems I sit down late at noght to just write code for hours on end. But I really enjoy it. Using LLM’s to generate the code ruins it. I have also done meditation, but I struggle to keep it up for long. I think you should really do it consistently to get majority of effects. Coding, exercising,...
-
-5. I’m clearly much more productive now. I’m doing five things at once very effectively, switching between multiple agent sessions from morning to night. Joel Spolsky disagrees here: https://www.joelonsoftware.com/2001/02/12/human-task-switche...
+5. now that any software/knowledge is copyable given sufficient cash and AIs, gating knowledge migth be the only thing that protects your business. otherwise you do not have business.
 
 #### Top 5 Negative Comments
 
-1. I have certainly noticed my stress skyrocket in this new mode of working. I was used to getting a lot done very quickly, with intense pockets of work followed downtime. Now it feels more like a steady stream of medium stress, and there is no opportunity to stop or drop the thread. I must admit, if this is the new way of doing software development (eg: not actually programming but working with LLMs) I am not going to...
+1. The problem is that there is an enormous, nearly unignorable incentive to work around it. So they will. As the customer base becomes more and more corporate (which it will), they end up with disproportionately more customers whose experiences cannot be used to train the model to make it better for those customers. Either way, corporate customers cannot leach off the training from consumers handing over their personal...
 
-2. Yeah, same thoughts. And this industry is becoming so volatile, I'm not sure what will happen tomorrow. I mean it's highly unlikely that AI will replace developers at least in the next 10 years, but I'm not sure what will "software developer" become. Certain people love to work with details. If AI is taking away this joy, I'll rather retire as early as possible from this volatile industry.
+2. Sdks/libs, especially open source sdks, were never about gated knowledge. They were about the providing company making it as easy as possible for you to integrate. You would not need to know the idiosyncrasies behind api retries, paging, rate limits, auth flow, and on and on. The third party developers needed a resource, they call a method and get it. Open source libraries especially are about pooling knowledge, not...
 
-3. “I’m doing five things at once very effectively” …sure you are buddy, sure you are… Note to self: book appointment with Optometrist ASAP to correct how far my eyes have rolled back into my head.
+3. Yep, that’s true But those links are Googled after the model started to answer, they are not the links to the training data Imagine an artificial “librarian” that read all the books and spits hallucinated quotes for you But doesn’t let you enter the library, open a single book or even see the sources for those hallucinated quotes But instead Googles some sources based on hallucinations after generating them ;-) It’s...
 
-## 9. Megawatts by Microwave
+4. It seems beyond naive, rather malicious, to upload any useful private data to SaaS LLMs. Like, you are letting them data mine your business. Why are corporations not panicing over this?
 
-- HN: https://news.ycombinator.com/item?id=48791591
-- External: https://computer.rip/2026-07-04-microwave-and-power.html
-
-### Summary
-
-The article traces how U.S. federal agencies pursued major dam projects on the Columbia River—initially for irrigation, metals, navigation changes, and national defense, but increasingly for large-scale hydropower during the Great Depression. It explains the institutional rivalry between the Army Corps of Engineers and the Bureau of Reclamation, culminating in the Bonneville and Grand Coulee dams, and the resulting politics over whether government should publicly market the electricity. The Bonneville Power Administration (BPA) then built an integrated “Master Grid” transmission network across multiple states, pioneering regional grid concepts and high-voltage technologies. Because rural substations were spread out and fault response was hard, the post shifts to how the BPA also developed long-distance communications for power control—using carrier-current telephone systems, radio/telephony options, and selective calling to coordinate remote switching and monitoring.
-
-#### Top 5 Positive Comments
-
-1. history lesson about power transmission lines in the us
-
-#### Top 5 Negative Comments
-
-_No comments available._
+5. Yep, knowledge should not be gated: Imagine Google search without any links or sources named This is the “modern” AI chatbot: It never mentions the training data it used, in fact has no idea what it used (often FB, Reddit and partisan websites) Update: I added the reply about after the fact Googling chatbots do - it’s different
 
 ## 10. Jellyfish can heal wounds in minutes. Scientists want their secrets
 
@@ -250,28 +258,28 @@ _No comments available._
 
 ### Summary
 
-Researchers at the Marine Biological Laboratory have studied how jellyfish (Clytia hemisphaerica) heal epithelial wounds extremely fast—small injuries close within minutes, without scarring and with “embryonic-like” repair. Because the jellyfish medusae are transparent and lack an immune system that would obscure the process, scientists can watch epithelial cells stitch and migrate in real time, and they find many wound-healing mechanisms conserved with other animals, including mammals. In a new paper, Jocelyn Malamy shows that Clytia epithelial healing is coordinated by two key sequential structures: lamellipodia that “walk” across the basement membrane to cover the wound, and an actomyosin cable that contracts to help close wounds and deal with basement membrane damage or debris. She now plans to investigate how Clytia repairs the basement membrane itself, an area still poorly understood across species.
+A researcher at the Marine Biological Laboratory, Jocelyn Malamy, describes how the jellyfish species Clytia hemisphaerica can close wounds extremely fast—small ones within minutes and larger ones within an hour—without forming scar tissue. Because Clytia medusae are transparent and lack an immune-system inflammatory response, scientists can directly observe epithelial cells “stitching” and migrating to repair damage in real time, and many of the underlying mechanisms appear conserved with other animals, including mammals. In a new paper, Malamy argues that Clytia epithelial wound healing is driven by two coordinated actin-based structures in sequence: lamellipodia that crawl across the basement membrane, followed by an actomyosin cable that contracts and helps pull cells over basement-membrane damage and expel debris. She also proposes that when wounds are too large for individual cell edges to meet, the entire epithelial sheet lifts and migrates collectively, then closes. The next research goal is to understand how the basement membrane itself is repaired, a process still unclear in any system.
 
 #### Top 5 Positive Comments
 
-1. Hell, any research lab would implore you to make such challenge. Imagine all the things we'd missed out on if we always acted towards some certain goal(s), probably half the stuff we have today wouldn't have been invented (yet?).
+1. The article is pretty explicit that the interesting part is that some of the underlying epithelial repair mechanisms appear to be conserved across animals, including mammals
 
-2. The medusa, the free-swimming form most people picture when they hear the term jellyfish, is only one stage of the animal’s life cycle. We tend to think of the flower—or the jellyfish—as the organism, but these are actually reproductive units. I'll never look at jellyfish the same.
+2. What I like about this work is that the jellyfish may be less important as a source of some magical "regeneration gene" and more useful as a system where you can actually see the basic mechanics clearly
 
-3. True jellyfish (like moon jellies, box jellyfish)are a single organism, just like you or me. Theres a single genome and one body. Portuguese man o’ war is not a single organism at all but a siphonophore, a colony of many genetically identical but specialized individual organisms called zooids, all fused together and functionally dependent on each other.
+3. Hell, any research lab would implore you to make such challenge. Imagine all the things we'd missed out on if we always acted towards some certain goal(s), probably half the stuff we have today wouldn't have been invented (yet?).
 
-4. My memories of being a 6-7 years old, throwing blue jellyfish on each other in "jelly wars" with other kids just suddenly turned into a traumatic memory instead. Fun fact; where I grew up, we only had (at the time at least) two different types of jellyfish in the sea, blue and red ones. Easy to tell apart, one is "good", one is bad. However, now living in a very different place, suddenly what I learnt as a child is n...
+4. Simpler tissue makes it easier to see the core mechanics without blood vessels, inflammation and a lot of other processes happening at the same time
 
-5. Clytia is not just your normal jellyfish, is an organism that alternates between a jellyfish and a polyp that live in small colonies, not unlike corals but less complex and without hard calcified skeletons. Is also in the same group that has the only animals known to be potentially immortal. I'm not joking. This things exist. So the word "heal" here can mean different things than people expects. Imagine that as we gr...
+5. The medusa, the free-swimming form most people picture when they hear the term jellyfish, is only one stage of the animal’s life cycle. We tend to think of the flower—or the jellyfish—as the organism, but these are actually reproductive units. I'll never look at jellyfish the same.
 
 #### Top 5 Negative Comments
 
 1. Agreed. I always hated the 'two part', 'payoff'-based drama of titles like these, even before the LLM era. If it was lazy before (it was), it now comes off as 'one-click' lazy. Sadly, The Guardian has become infested with this style lately.
 
-2. The title seems like clickbait for a super medical cream.
+2. Doctors hate them.
 
-3. Healing their own wounds, not ours.
+3. The title seems like clickbait for a super medical cream.
 
-4. They're not even technically one organism, but colonies of independent but mostly specialized organisms. I'd be willing to bet that has something to do with the articles title
+4. Novo Nordisk might challenge the idea that application follows directly from research objectives
 
-5. This is a press release from a marine research organization, so the main implication here isn't that they're doing it because it's in any way relevant to humans. They're doing it because it's a cool thing for a marine research organization to research. Yes, it's probably not gonna help humans, unless some of your friends are gelatinous blobs with no circulatory or nervous system and with a lifespan measured in months...
+5. 9 out of 10 doctors…
